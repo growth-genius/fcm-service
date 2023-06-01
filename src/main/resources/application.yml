@@ -1,0 +1,22 @@
+server:
+  port: 9232
+spring:
+  application:
+    name: fcm-service
+  profiles:
+    active: default
+eureka:
+  instance:
+    instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}
+  client:
+    register-with-eureka: true # eureka
+    fetch-registry: true
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka
+kafka:
+  bootstrap-servers-config: 172.0.0.1:9092
+  group-id-config: fcm-service
+
+fcm:
+  scopes:
+    - https://www.googleapis.com/auth/cloud-platform
