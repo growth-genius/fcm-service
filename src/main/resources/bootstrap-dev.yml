@@ -5,4 +5,4 @@ spring:
   cloud:
     config:
       uri: http://config-service:8888
-      name: ecommerce, common, zipkin
+      name: fcm-service, ecommerce, common, zipkin
