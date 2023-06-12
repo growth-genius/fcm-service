@@ -7,7 +7,6 @@ import com.gg.tgather.commonservice.dto.fcm.FcmMessageDto;
 import com.gg.tgather.fcmservice.modules.fcm.service.FcmService;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import java.io.IOException;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -22,14 +21,12 @@ public class FcmKafkaConsumer {
 
     @KafkaListener(topics = "${kafka.fcm-topic.send-single-fcm-topic}")
     public void sendSingleFcm(String kafkaMessage) throws IOException, FirebaseMessagingException {
-        FcmMessageDto fcmMessageDto = objectMapper.readValue(kafkaMessage, FcmMessageDto.class);
-        fcmService.pushMessage(fcmMessageDto);
+        fcmService.pushMessage(objectMapper.readValue(kafkaMessage, FcmMessageDto.class));
     }
 
     @KafkaListener(topics = "${kafka.fcm-topic.send-multiple-fcm-topic}")
     public void sendMultipleFcm(String kafkaMessage) throws IOException, FirebaseMessagingException {
-        List<FcmMessageDto> fcmMessageDtos = objectMapper.readValue(kafkaMessage, new TypeReference<List<FcmMessageDto>>() {});
-        fcmService.pushMessages(fcmMessageDtos);
+        fcmService.pushMessages(objectMapper.readValue(kafkaMessage, new TypeReference<>() {}));
     }
 
 }
